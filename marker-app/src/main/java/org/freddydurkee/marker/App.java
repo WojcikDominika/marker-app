@@ -20,7 +20,10 @@ public class App extends Application {
         scene = new Scene(loadFXML("mainView"));
         scene.getStylesheets().add("css/dark-theme.css");
         stage.setScene(scene);
+        stage.sizeToScene();
         stage.show();
+        stage.setMinWidth(stage.getWidth());
+        stage.setMinHeight(stage.getHeight());
     }
 
     static void setRoot(String fxml) throws IOException {
