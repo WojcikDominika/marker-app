@@ -1,21 +1,26 @@
 package org.freddydurkee.marker;
 
-import com.jfoenix.controls.JFXDrawer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
-
 
 import java.io.File;
 
+import static utils.Palette.randomColor;
+
 public class MainViewController {
+
 
     @FXML
     private Button loadImageBtn;
+
+    @FXML
+    private GridPane grid;
 
     @FXML
     private ImageView imageView1;
@@ -29,6 +34,7 @@ public class MainViewController {
     @FXML
     private ImageView imageView4;
 
+
     @FXML
     public void openFileChooser(MouseEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -37,6 +43,7 @@ public class MainViewController {
         File selectedFile = fileChooser.showOpenDialog(loadImageBtn.getScene().getWindow());
         if (selectedFile != null) {
             Image image = new Image(selectedFile.toURI().toString());
+
             imageView1.setImage(image);
             imageView2.setImage(image);
             imageView3.setImage(image);
@@ -44,4 +51,10 @@ public class MainViewController {
         }
     }
 
+    @FXML
+    public void createMarker(MouseEvent mouseEvent) {
+        Circle marker = new Circle(mouseEvent.getX(), mouseEvent.getY(), 5);
+        marker.setFill(randomColor());
+        grid.add(marker, 0, 0);
+    }
 }

@@ -1,0 +1,25 @@
+*{
+    /*color variables*/
+    -gray1: #1F2226;
+    -gray2: #272B30;
+    -gray3: #343940;
+    -light-gray1: #C0C4C4;
+    -blue1: #008BE0;
+}
+
+.background-dark-gray{
+    -fx-background-color: -gray1;
+}
+
+.marker-list > *{
+    -fx-text-fill: white;
+}
+
+.nav-bar{
+    -fx-background-color: -gray3;
+}
+
+.button{
+    -fx-background-color: -blue1;
+    -fx-text-fill: white;
+}
