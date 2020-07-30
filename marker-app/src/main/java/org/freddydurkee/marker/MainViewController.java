@@ -6,12 +6,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
+import org.freddydurkee.marker.view.ResizableImageView;
 
 import java.io.File;
-
-import static utils.Palette.randomColor;
 
 public class MainViewController {
 
@@ -23,13 +21,25 @@ public class MainViewController {
     private GridPane grid;
 
     @FXML
+    private ResizableImageView imgContainer1;
+
+    @FXML
     private ImageView imageView1;
+
+    @FXML
+    private ResizableImageView imgContainer2;
 
     @FXML
     private ImageView imageView2;
 
     @FXML
+    private ResizableImageView imgContainer3;
+
+    @FXML
     private ImageView imageView3;
+
+    @FXML
+    private ResizableImageView imgContainer4;
 
     @FXML
     private ImageView imageView4;
@@ -53,8 +63,6 @@ public class MainViewController {
 
     @FXML
     public void createMarker(MouseEvent mouseEvent) {
-        Circle marker = new Circle(mouseEvent.getX(), mouseEvent.getY(), 5);
-        marker.setFill(randomColor());
-        grid.add(marker, 0, 0);
+        imgContainer1.addMarker(mouseEvent);
     }
 }
