@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.image.ImageView;
@@ -12,11 +13,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import org.freddydurkee.marker.model.Marker;
+import utils.model.Point;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MarkerableImageView extends Pane {
+
     Map<Marker, Circle> markerCircleMap = new HashMap<>();
 
     private ObjectProperty<ImageView> imageViewProperty = new SimpleObjectProperty<ImageView>();
@@ -50,6 +53,26 @@ public class MarkerableImageView extends Pane {
         this.imageViewProperty.set(imageView);
     }
 
+    public Point calculateImageOriginalCoordinates(double currentX, double currentY){
+        double currWidth = imageViewProperty.get().getBoundsInParent().getWidth();
+        double currHeight = imageViewProperty.get().getBoundsInParent().getHeight();
+        double orgWidth = imageViewProperty.get().getImage().getWidth();
+        double orgHeight = imageViewProperty.get().getImage().getHeight();
+        return new Point(orgWidth/currWidth*currentX, orgHeight/currHeight*currentY);
+    }
+
+    public double calculateOriginalImageX(double currentX){
+        double currWidth = imageViewProperty.get().getBoundsInParent().getWidth();
+        double orgWidth = imageViewProperty.get().getImage().getWidth();
+        return orgWidth/currWidth*currentX;
+    }
+
+    public double calculateOriginalImageY(double currentY){
+        double currHeight = imageViewProperty.get().getBoundsInParent().getHeight();
+        double orgHeight = imageViewProperty.get().getImage().getHeight();
+        return orgHeight/currHeight*currentY;
+    }
+
 
     @Override
     protected void layoutChildren() {
@@ -74,20 +97,24 @@ public class MarkerableImageView extends Pane {
     }
 
     private double convertToMarkerX(Circle circle) {
-        return circle.getCenterX() - imgLeftTopCornerX();
+        return calculateOriginalImageX(circle.getCenterX() - imgLeftTopCornerX());
     }
 
     private double convertToMarkerY(Circle circle) {
-        return circle.getCenterY() - imgLeftTopCornerY();
+        return calculateOriginalImageY(circle.getCenterY() - imgLeftTopCornerY());
     }
 
     private double convertToCircleX(Marker marker) {
-        return imgLeftTopCornerX() + marker.getX();
+        double currWidth = imageViewProperty.get().getBoundsInParent().getWidth();
+        double orgWidth = imageViewProperty.get().getImage().getWidth();
+        return imgLeftTopCornerX() + (marker.getX()*currWidth/orgWidth);
     }
 
 
     private double convertToCircleY(Marker marker) {
-        return imgLeftTopCornerY() + marker.getY();
+        double currHeight = imageViewProperty.get().getBoundsInParent().getHeight();
+        double orgHeight = imageViewProperty.get().getImage().getHeight();
+        return imgLeftTopCornerY() + (marker.getY()*currHeight/orgHeight);
     }
 
     private double imgLeftTopCornerX() {
@@ -103,6 +130,8 @@ public class MarkerableImageView extends Pane {
         Circle circle = new Circle(convertToCircleX(marker), convertToCircleY(marker), marker.getR());
         circle.setFill(marker.getColor());
         circle.setOnMouseDragged(circleMoveEvent(circle));
+        this.widthProperty().addListener((observable) -> { circle.setCenterX(convertToCircleX(marker)); });
+        this.heightProperty().addListener((observable) -> { circle.setCenterY(convertToCircleY(marker)); });
         return circle;
     }
 

@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import org.freddydurkee.marker.model.Marker;
 import org.freddydurkee.marker.view.MarkerableImageView;
+import utils.model.Point;
 
 import java.io.File;
 
@@ -77,7 +78,10 @@ public class MainViewController {
     public void onMarkerableImageClickedAddMarker(MouseEvent mouseEvent) {
         ImageView imgView = (ImageView) mouseEvent.getSource();
         if(imgView.getImage() != null) {
-            Marker marker = new Marker(mouseEvent.getX(), mouseEvent.getY());
+            MarkerableImageView markerableImageView = (MarkerableImageView) imgView.getParent();
+            double imgOriginalX = markerableImageView.calculateOriginalImageX(mouseEvent.getX());
+            double imgOriginalY = markerableImageView.calculateOriginalImageY(mouseEvent.getY());
+            Marker marker = new Marker(imgOriginalX, imgOriginalY);
             markers.add(marker);
         }
     }
