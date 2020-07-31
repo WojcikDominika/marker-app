@@ -12,7 +12,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import org.freddydurkee.marker.model.Marker;
-import utils.model.Point;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,32 +63,57 @@ public class MarkerableImageView extends Pane {
     }
 
     private void addMarker(Marker marker) {
-        ImageView imageView = imageViewProperty.get();
-        Point relativeCoor = calculateMarkerRelativePosition(marker, imageView);
-        Circle circle = createCircleMarker(marker, relativeCoor);
+        Circle circle = createCircleMarker(marker);
         this.getChildren().add(circle);
-        markerCircleMap.put(marker,circle);
-        marker.xProperty().bindBidirectional(circle.centerXProperty());
-        marker.yProperty().bindBidirectional(circle.centerYProperty());
+        markerCircleMap.put(marker, circle);
+
+        marker.xProperty().addListener((observable) -> { circle.setCenterX(convertToCircleX(marker)); });
+        marker.yProperty().addListener((observable) -> { circle.setCenterY(convertToCircleY(marker)); });
+        circle.centerXProperty().addListener((observable) -> { marker.setX(convertToMarkerX(circle)); });
+        circle.centerYProperty().addListener((observable) -> { marker.setY(convertToMarkerY(circle)); });
     }
 
-    private Circle createCircleMarker(Marker marker, Point relativeCoor) {
-        Circle circle = new Circle(relativeCoor.getX(), relativeCoor.getY(), marker.getR());
+    private double convertToMarkerX(Circle circle) {
+        return circle.getCenterX() - imgLeftTopCornerX();
+    }
+
+    private double convertToMarkerY(Circle circle) {
+        return circle.getCenterY() - imgLeftTopCornerY();
+    }
+
+    private double convertToCircleX(Marker marker) {
+        return imgLeftTopCornerX() + marker.getX();
+    }
+
+
+    private double convertToCircleY(Marker marker) {
+        return imgLeftTopCornerY() + marker.getY();
+    }
+
+    private double imgLeftTopCornerX() {
+        return (this.getWidth() - imageViewProperty.get().getBoundsInParent().getWidth()) / 2;
+    }
+
+    private double imgLeftTopCornerY() {
+        return (this.getHeight() - imageViewProperty.get().getBoundsInParent().getHeight()) / 2;
+    }
+
+
+    private Circle createCircleMarker(Marker marker) {
+        Circle circle = new Circle(convertToCircleX(marker), convertToCircleY(marker), marker.getR());
         circle.setFill(marker.getColor());
         circle.setOnMouseDragged((new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                circle.setCenterX(event.getX());
-                circle.setCenterY(event.getY());
+                double cursorX = event.getX();
+                double cursorY = event.getY();
+                if (cursorX >= imgLeftTopCornerX() && cursorX < imgLeftTopCornerX() + imageViewProperty.get().getBoundsInParent().getWidth()
+                    && cursorY >= imgLeftTopCornerY() && cursorY < imgLeftTopCornerY() + imageViewProperty.get().getBoundsInParent().getHeight()) {
+                    circle.setCenterX(event.getX());
+                    circle.setCenterY(event.getY());
+                }
             }
         }));
         return circle;
-    }
-
-    private Point calculateMarkerRelativePosition(Marker marker, ImageView imageView) {
-        Point parentCenter = new Point(this.getWidth() / 2, this.getHeight() / 2);
-        Point imgCenter = new Point(imageView.getBoundsInParent().getWidth() / 2, imageView.getBoundsInParent().getHeight() / 2);
-        Point imgStartPoint = parentCenter.subtract(imgCenter);
-        return imgStartPoint.add(new Point(marker.getX(), marker.getY()));
     }
 
 
