@@ -19,6 +19,14 @@
     -fx-background-color: -gray3;
 }
 
+.label{
+    -fx-text-fill: -light-gray1;
+}
+
+.small-font{
+    -fx-font-size: 0.8em;
+}
+
 .button{
     -fx-background-color: -blue1;
     -fx-text-fill: white;

@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import org.freddydurkee.marker.model.Marker;
 import org.freddydurkee.marker.view.MarkerableImageView;
@@ -20,6 +21,9 @@ public class MainViewController {
 
     @FXML
     private Button loadImageBtn;
+
+    @FXML
+    private VBox markersList;
 
     @FXML
     private GridPane grid;
@@ -47,7 +51,6 @@ public class MainViewController {
 
     @FXML
     private ImageView imageView4;
-
     ObservableList<Marker> markers = FXCollections.observableArrayList();
 
     @FXML
@@ -83,6 +86,7 @@ public class MainViewController {
             double imgOriginalY = markerableImageView.calculateOriginalImageY(mouseEvent.getY());
             Marker marker = new Marker(imgOriginalX, imgOriginalY);
             markers.add(marker);
+            markersList.getChildren().add(new MarkerListItem());
         }
     }
 }
