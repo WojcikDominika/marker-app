@@ -4,9 +4,11 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import org.freddydurkee.marker.model.Marker;
@@ -64,12 +66,23 @@ public class MarkerableImageView extends Pane {
     private void addMarker(Marker marker) {
         ImageView imageView = imageViewProperty.get();
         Point relativeCoor = calculateMarkerRelativePosition(marker, imageView);
+        Circle circle = createCircleMarker(marker, relativeCoor);
+        this.getChildren().add(circle);
+        markerCircleMap.put(marker,circle);
+        marker.xProperty().bindBidirectional(circle.centerXProperty());
+        marker.yProperty().bindBidirectional(circle.centerYProperty());
+    }
+
+    private Circle createCircleMarker(Marker marker, Point relativeCoor) {
         Circle circle = new Circle(relativeCoor.getX(), relativeCoor.getY(), marker.getR());
         circle.setFill(marker.getColor());
-        this.getChildren().add(circle);
-//        markerCircleMap.put(marker,circle);
-//        marker.xProperty().bindBidirectional(circle.centerXProperty());
-//        marker.yProperty().bindBidirectional(circle.centerYProperty());
+        circle.setOnMouseDragged((new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                circle.setCenterX(event.getX());
+                circle.setCenterY(event.getY());
+            }
+        }));
+        return circle;
     }
 
     private Point calculateMarkerRelativePosition(Marker marker, ImageView imageView) {
