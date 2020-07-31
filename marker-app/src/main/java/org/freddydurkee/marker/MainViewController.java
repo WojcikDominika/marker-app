@@ -1,5 +1,7 @@
 package org.freddydurkee.marker;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -7,7 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
-import org.freddydurkee.marker.view.ResizableImageView;
+import org.freddydurkee.marker.model.Marker;
+import org.freddydurkee.marker.view.MarkerableImageView;
 
 import java.io.File;
 
@@ -21,29 +24,38 @@ public class MainViewController {
     private GridPane grid;
 
     @FXML
-    private ResizableImageView imgContainer1;
+    private MarkerableImageView imgContainer1;
 
     @FXML
     private ImageView imageView1;
 
     @FXML
-    private ResizableImageView imgContainer2;
+    private MarkerableImageView imgContainer2;
 
     @FXML
     private ImageView imageView2;
 
     @FXML
-    private ResizableImageView imgContainer3;
+    private MarkerableImageView imgContainer3;
 
     @FXML
     private ImageView imageView3;
 
     @FXML
-    private ResizableImageView imgContainer4;
+    private MarkerableImageView imgContainer4;
 
     @FXML
     private ImageView imageView4;
 
+    ObservableList<Marker> markers = FXCollections.observableArrayList();
+
+    @FXML
+    public void initialize() {
+        imgContainer1.addMarkerList(markers);
+        imgContainer2.addMarkerList(markers);
+        imgContainer3.addMarkerList(markers);
+        imgContainer4.addMarkerList(markers);
+    }
 
     @FXML
     public void openFileChooser(MouseEvent event) {
@@ -62,7 +74,9 @@ public class MainViewController {
     }
 
     @FXML
-    public void createMarker(MouseEvent mouseEvent) {
-        imgContainer1.addMarker(mouseEvent);
+    public void onMarkerableImageClickedAddMarker(MouseEvent mouseEvent) {
+            Marker marker = new Marker(mouseEvent.getX(), mouseEvent.getY());
+            markers.add(marker);
+
     }
 }
