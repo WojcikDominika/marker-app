@@ -102,18 +102,20 @@ public class MarkerableImageView extends Pane {
     private Circle createCircleMarker(Marker marker) {
         Circle circle = new Circle(convertToCircleX(marker), convertToCircleY(marker), marker.getR());
         circle.setFill(marker.getColor());
-        circle.setOnMouseDragged((new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                double cursorX = event.getX();
-                double cursorY = event.getY();
-                if (cursorX >= imgLeftTopCornerX() && cursorX < imgLeftTopCornerX() + imageViewProperty.get().getBoundsInParent().getWidth()
-                    && cursorY >= imgLeftTopCornerY() && cursorY < imgLeftTopCornerY() + imageViewProperty.get().getBoundsInParent().getHeight()) {
-                    circle.setCenterX(event.getX());
-                    circle.setCenterY(event.getY());
-                }
-            }
-        }));
+        circle.setOnMouseDragged(circleMoveEvent(circle));
         return circle;
+    }
+
+    private EventHandler<MouseEvent> circleMoveEvent(Circle circle) {
+        return event -> {
+            double cursorX = event.getX();
+            double cursorY = event.getY();
+            if (cursorX >= imgLeftTopCornerX() && cursorX < imgLeftTopCornerX() + imageViewProperty.get().getBoundsInParent().getWidth()
+                && cursorY >= imgLeftTopCornerY() && cursorY < imgLeftTopCornerY() + imageViewProperty.get().getBoundsInParent().getHeight()) {
+                circle.setCenterX(event.getX());
+                circle.setCenterY(event.getY());
+            }
+        };
     }
 
 

@@ -75,8 +75,10 @@ public class MainViewController {
 
     @FXML
     public void onMarkerableImageClickedAddMarker(MouseEvent mouseEvent) {
+        ImageView imgView = (ImageView) mouseEvent.getSource();
+        if(imgView.getImage() != null) {
             Marker marker = new Marker(mouseEvent.getX(), mouseEvent.getY());
             markers.add(marker);
-
+        }
     }
 }
