@@ -1,4 +1,4 @@
-package utils;
+package utils.view;
 
     import javafx.scene.paint.Color;
 
@@ -6,12 +6,12 @@ package utils;
 
 public class Palette {
 
+    private static Random random = new Random();
 
     public static Color randomColor() {
-        Random random = new Random();
-        float hue = random.nextFloat();
-        float saturation = 0.9f;
-        float luminance = 1.0f;
+        final float hue = random.nextFloat()*360;
+        final float saturation = 0.9f;
+        final float luminance = 1.0f;
         return Color.hsb(hue, saturation, luminance);
     }
 }

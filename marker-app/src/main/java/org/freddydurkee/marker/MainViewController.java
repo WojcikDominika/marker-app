@@ -1,17 +1,19 @@
 package org.freddydurkee.marker;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
+import org.freddydurkee.marker.model.Marker;
+import org.freddydurkee.marker.view.MarkerableImageView;
+import utils.model.Point;
 
 import java.io.File;
-
-import static utils.Palette.randomColor;
 
 public class MainViewController {
 
@@ -23,17 +25,38 @@ public class MainViewController {
     private GridPane grid;
 
     @FXML
+    private MarkerableImageView imgContainer1;
+
+    @FXML
     private ImageView imageView1;
+
+    @FXML
+    private MarkerableImageView imgContainer2;
 
     @FXML
     private ImageView imageView2;
 
     @FXML
+    private MarkerableImageView imgContainer3;
+
+    @FXML
     private ImageView imageView3;
+
+    @FXML
+    private MarkerableImageView imgContainer4;
 
     @FXML
     private ImageView imageView4;
 
+    ObservableList<Marker> markers = FXCollections.observableArrayList();
+
+    @FXML
+    public void initialize() {
+        imgContainer1.addMarkerList(markers);
+        imgContainer2.addMarkerList(markers);
+        imgContainer3.addMarkerList(markers);
+        imgContainer4.addMarkerList(markers);
+    }
 
     @FXML
     public void openFileChooser(MouseEvent event) {
@@ -52,9 +75,14 @@ public class MainViewController {
     }
 
     @FXML
-    public void createMarker(MouseEvent mouseEvent) {
-        Circle marker = new Circle(mouseEvent.getX(), mouseEvent.getY(), 5);
-        marker.setFill(randomColor());
-        grid.add(marker, 0, 0);
+    public void onMarkerableImageClickedAddMarker(MouseEvent mouseEvent) {
+        ImageView imgView = (ImageView) mouseEvent.getSource();
+        if(imgView.getImage() != null) {
+            MarkerableImageView markerableImageView = (MarkerableImageView) imgView.getParent();
+            double imgOriginalX = markerableImageView.calculateOriginalImageX(mouseEvent.getX());
+            double imgOriginalY = markerableImageView.calculateOriginalImageY(mouseEvent.getY());
+            Marker marker = new Marker(imgOriginalX, imgOriginalY);
+            markers.add(marker);
+        }
     }
 }
