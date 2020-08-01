@@ -11,7 +11,7 @@ public class Marker {
     private IntegerProperty x;
     private IntegerProperty y;
 
-    public Marker(int x, int y){
+    public Marker(int x, int y) {
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         color = randomColor();
@@ -19,7 +19,6 @@ public class Marker {
 
     public double getR() {
         return 5;
-
     }
 
     public Color getColor() {

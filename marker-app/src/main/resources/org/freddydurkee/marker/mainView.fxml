@@ -6,6 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import org.freddydurkee.marker.view.MarkerableImageView?>
+<?import org.freddydurkee.marker.view.MarkerListView?>
 <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="420.0" minWidth="850.0" nodeOrientation="LEFT_TO_RIGHT"
       styleClass="background-dark-gray" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.freddydurkee.marker.MainViewController">
@@ -38,11 +39,11 @@
                 <ScrollPane id="scrollable" fitToHeight="true" fitToWidth="true" layoutX="69.0" minWidth="100.0" style="-fx-background-color: transparent;"
                             AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <content>
-                        <VBox fx:id="markersList" alignment="TOP_CENTER" minWidth="90.0" spacing="5.0" styleClass="marker-list">
+                        <MarkerListView fx:id="markersList" alignment="TOP_CENTER" minWidth="90.0" spacing="5.0" styleClass="marker-list">
                             <padding>
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
-                        </VBox>
+                        </MarkerListView>
                     </content>
                 </ScrollPane>
             </children>
