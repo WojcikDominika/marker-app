@@ -1,4 +1,4 @@
-*{
+* {
     /*color variables*/
     -gray1: #1F2226;
     -gray2: #272B30;
@@ -7,19 +7,56 @@
     -blue1: #008BE0;
 }
 
-.background-dark-gray{
+.background-dark-gray {
     -fx-background-color: -gray1;
 }
 
-.marker-list > *{
+.marker-list > * {
     -fx-text-fill: white;
 }
 
-.nav-bar{
+.scroll-pane > .viewport {
+    -fx-background-color: -gray1;
+}
+
+.nav-bar {
     -fx-background-color: -gray3;
 }
 
-.button{
+.coord-txt {
+    -fx-text-fill: -light-gray1;
+    -fx-font-size: 0.8em;
+}
+
+.button {
     -fx-background-color: -blue1;
     -fx-text-fill: white;
+}
+
+.scrollable-marker-list .scroll-bar .increment-button,
+.scrollable-marker-list .scroll-bar .increment-button .increment-arrow,
+.scrollable-marker-list .scroll-bar .decrement-button,
+.scrollable-marker-list .scroll-bar .decrement-button .decrement-arrow {
+    visibility: hidden;
+}
+
+.scrollable-marker-list .scroll-pane,
+.scrollable-marker-list .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scrollable-marker-list .scroll-bar .track,
+.scrollable-marker-list .scroll-bar .track-background {
+    visibility: hidden;
+}
+
+.scrollable-marker-list .scroll-bar .thumb {
+    -fx-background-color: -blue1;
+    -fx-opacity: 0.5;
+}
+
+.scrollable-marker-list .scroll-bar:hover .thumb,
+.scrollable-marker-list .scroll-bar:pressed .thumb{
+    -fx-background-color: -blue1;
+    -fx-opacity: 1;
 }

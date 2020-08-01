@@ -51,18 +51,17 @@ public class MarkerableImageView extends Pane {
         this.imageViewProperty.set(imageView);
     }
 
-    public double calculateOriginalImageX(double currentX) {
+    public int calculateOriginalImageX(double currentX) {
         double currWidth = imageViewProperty.get().getBoundsInParent().getWidth();
         double orgWidth = imageViewProperty.get().getImage().getWidth();
-        return orgWidth / currWidth * currentX;
+        return (int) (orgWidth / currWidth * currentX);
     }
 
-    public double calculateOriginalImageY(double currentY) {
+    public int calculateOriginalImageY(double currentY) {
         double currHeight = imageViewProperty.get().getBoundsInParent().getHeight();
         double orgHeight = imageViewProperty.get().getImage().getHeight();
-        return orgHeight / currHeight * currentY;
+        return (int) (orgHeight / currHeight * currentY);
     }
-
 
     @Override
     protected void layoutChildren() {
@@ -72,7 +71,13 @@ public class MarkerableImageView extends Pane {
             imageView.setFitHeight(getHeight());
             layoutInArea(imageView, 0, 0, getWidth(), getHeight(), 0, HPos.CENTER, VPos.CENTER);
         }
+        markerCircleMap.entrySet().forEach(markerCircleEntry -> recalculateMarkerPosition(markerCircleEntry.getValue(), markerCircleEntry.getKey()));
         super.layoutChildren();
+    }
+
+    private void recalculateMarkerPosition(Circle circle, Marker marker) {
+        circle.setCenterX(convertToCircleX(marker));
+        circle.setCenterY(convertToCircleY(marker));
     }
 
     private void addMarker(Marker marker) {
@@ -104,13 +109,10 @@ public class MarkerableImageView extends Pane {
         return (this.getHeight() - imageViewProperty.get().getBoundsInParent().getHeight()) / 2;
     }
 
-
     private Circle createCircleMarker(Marker marker) {
         Circle circle = new Circle(convertToCircleX(marker), convertToCircleY(marker), marker.getR());
         circle.setFill(marker.getColor());
         circle.setOnMouseDragged(markerMoveEvent(marker));
-        this.widthProperty().addListener((observable) -> { circle.setCenterX(convertToCircleX(marker));});
-        this.heightProperty().addListener((observable) -> { circle.setCenterY(convertToCircleY(marker));});
         return circle;
     }
 
@@ -120,8 +122,8 @@ public class MarkerableImageView extends Pane {
             double cursorY = event.getY();
             if (cursorX >= imgLeftTopCornerX() && cursorX < imgLeftTopCornerX() + imageViewProperty.get().getBoundsInParent().getWidth()
                 && cursorY >= imgLeftTopCornerY() && cursorY < imgLeftTopCornerY() + imageViewProperty.get().getBoundsInParent().getHeight()) {
-                double imgOriginalX = calculateOriginalImageX(fromContainerToImageX(cursorX));
-                double imgOriginalY = calculateOriginalImageY(fromContainerToImageY(cursorY));
+                int imgOriginalX = calculateOriginalImageX(fromContainerToImageX(cursorX));
+                int imgOriginalY = calculateOriginalImageY(fromContainerToImageY(cursorY));
                 marker.setX(imgOriginalX);
                 marker.setY(imgOriginalY);
             }
@@ -136,13 +138,17 @@ public class MarkerableImageView extends Pane {
         return cursorX - imgLeftTopCornerX();
     }
 
-
     public void addMarkerList(ObservableList<Marker> markers) {
-        markers.addListener((ListChangeListener) change -> {
+        markers.addListener((ListChangeListener<Marker>) change -> {
             while (change.next()) {
                 if (change.wasAdded()) {
-                    for (Object marker : change.getAddedSubList()) {
-                        addMarker((Marker) marker);
+                    for (Marker marker : change.getAddedSubList()) {
+                        addMarker(marker);
+                    }
+                }
+                if (change.wasRemoved()) {
+                    for (Marker marker : change.getRemoved()) {
+                        this.getChildren().remove(markerCircleMap.remove(marker));
                     }
                 }
             }
