@@ -32,3 +32,31 @@
     -fx-background-color: -blue1;
     -fx-text-fill: white;
 }
+
+.scrollable-marker-list .scroll-bar .increment-button,
+.scrollable-marker-list .scroll-bar .increment-button .increment-arrow,
+.scrollable-marker-list .scroll-bar .decrement-button,
+.scrollable-marker-list .scroll-bar .decrement-button .decrement-arrow {
+    visibility: hidden;
+}
+
+.scrollable-marker-list .scroll-pane,
+.scrollable-marker-list .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scrollable-marker-list .scroll-bar .track,
+.scrollable-marker-list .scroll-bar .track-background {
+    visibility: hidden;
+}
+
+.scrollable-marker-list .scroll-bar .thumb {
+    -fx-background-color: -blue1;
+    -fx-opacity: 0.5;
+}
+
+.scrollable-marker-list .scroll-bar:hover .thumb,
+.scrollable-marker-list .scroll-bar:pressed .thumb{
+    -fx-background-color: -blue1;
+    -fx-opacity: 1;
+}

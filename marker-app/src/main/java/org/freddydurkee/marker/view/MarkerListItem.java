@@ -54,13 +54,12 @@ public class MarkerListItem extends GridPane {
     }
 
     private void setPointConstraints(int height, int width) {
-        addXLabelConstraint(0, width);
-        addYLabelConstraint(0, height);
-
+        addTextFieldNumberConstraint(xValue, 0, width);
+        addTextFieldNumberConstraint(yValue, 0, height);
     }
 
-    private void addXLabelConstraint(int minX, int maxX) {
-        xValue.setTextFormatter(new TextFormatter<Integer>(change -> {
+    private void addTextFieldNumberConstraint(TextField textField, int minVal, int maxVal) {
+        textField.setTextFormatter(new TextFormatter<Integer>(change -> {
             if (change.isDeleted()) {
                 return change;
             }
@@ -72,13 +71,11 @@ public class MarkerListItem extends GridPane {
             }
             try {
                 int n = Integer.parseInt(txt);
-                return minX <= n && n <= maxX ? change : null;
+                return minVal <= n && n <= maxVal ? change : null;
             } catch (NumberFormatException e) {
                 return null;
             }
         }));
     }
 
-    public void addYLabelConstraint(int minY, int maxY) {
-    }
 }

@@ -113,4 +113,9 @@ public class MainViewController {
             markers.add(marker);
         }
     }
+
+    public void cleanMarkers(MouseEvent mouseEvent) {
+        markers.clear();
+        markersList.resetMarkerCounter();
+    }
 }

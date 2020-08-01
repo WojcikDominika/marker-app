@@ -63,7 +63,6 @@ public class MarkerableImageView extends Pane {
         return (int) (orgHeight / currHeight * currentY);
     }
 
-
     @Override
     protected void layoutChildren() {
         ImageView imageView = imageViewProperty.get();
@@ -110,7 +109,6 @@ public class MarkerableImageView extends Pane {
         return (this.getHeight() - imageViewProperty.get().getBoundsInParent().getHeight()) / 2;
     }
 
-
     private Circle createCircleMarker(Marker marker) {
         Circle circle = new Circle(convertToCircleX(marker), convertToCircleY(marker), marker.getR());
         circle.setFill(marker.getColor());
@@ -140,7 +138,6 @@ public class MarkerableImageView extends Pane {
         return cursorX - imgLeftTopCornerX();
     }
 
-
     public void addMarkerList(ObservableList<Marker> markers) {
         markers.addListener((ListChangeListener<Marker>) change -> {
             while (change.next()) {
@@ -155,7 +152,6 @@ public class MarkerableImageView extends Pane {
                     }
                 }
             }
-
         });
     }
 }
