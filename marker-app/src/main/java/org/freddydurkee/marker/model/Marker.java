@@ -1,19 +1,19 @@
 package org.freddydurkee.marker.model;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.paint.Color;
 
 import static utils.view.Palette.randomColor;
 
 public class Marker {
     private final Color color;
-    private DoubleProperty x;
-    private DoubleProperty y;
+    private IntegerProperty x;
+    private IntegerProperty y;
 
-    public Marker(double x, double y){
-        this.x = new SimpleDoubleProperty(x);
-        this.y = new SimpleDoubleProperty(y);
+    public Marker(int x, int y){
+        this.x = new SimpleIntegerProperty(x);
+        this.y = new SimpleIntegerProperty(y);
         color = randomColor();
     }
 
@@ -30,11 +30,11 @@ public class Marker {
         return x.get();
     }
 
-    public DoubleProperty xProperty() {
+    public IntegerProperty xProperty() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(int x) {
         this.x.set(x);
     }
 
@@ -42,11 +42,11 @@ public class Marker {
         return y.get();
     }
 
-    public DoubleProperty yProperty() {
+    public IntegerProperty yProperty() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(int y) {
         this.y.set(y);
     }
 }
