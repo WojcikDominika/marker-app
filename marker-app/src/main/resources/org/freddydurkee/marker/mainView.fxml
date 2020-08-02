@@ -6,7 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import org.freddydurkee.marker.view.*?>
-<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="420.0" minWidth="950.0" nodeOrientation="LEFT_TO_RIGHT" styleClass="background-dark-gray" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.freddydurkee.marker.MainViewController">
+<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="420.0" minWidth="950.0" nodeOrientation="LEFT_TO_RIGHT" styleClass="background-dark-gray" xmlns="http://javafx.com/javafx/8.0.262" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.freddydurkee.marker.MainViewController">
     <children>
         <AnchorPane minHeight="380.0" minWidth="260" HBox.hgrow="SOMETIMES" >
             <children>
