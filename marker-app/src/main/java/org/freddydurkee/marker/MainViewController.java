@@ -8,17 +8,12 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import org.freddydurkee.marker.model.Marker;
-import org.freddydurkee.marker.view.MarkerListItem;
 import org.freddydurkee.marker.view.MarkerListView;
 import org.freddydurkee.marker.view.MarkerableImageView;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainViewController {
 
