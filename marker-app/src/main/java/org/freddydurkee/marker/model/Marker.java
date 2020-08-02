@@ -4,7 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.paint.Color;
 
-import static utils.view.Palette.randomColor;
+import static org.freddydurkee.marker.view.utils.Palette.randomColor;
 
 public class Marker {
     private final Color color;
